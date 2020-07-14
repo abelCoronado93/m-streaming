@@ -1,0 +1,28 @@
+spark-submit --jars ~/Downloads/spark-streaming-kafka-0-8-assembly_2.11-2.4.6.jar --py-files /home/abel/TFM/m-streaming/dist/m_streaming-0.0.1-py3.6.egg /home/abel/TFM/m-streaming/m_streaming/main.py localhost:9092 test
+
+Start worker
+start-slave.sh spark://abel-PORTEGE-R930:7077
+
+Start ZooKeeper
+$KAFKA_HOME/bin/zookeeper-server-start.sh $KAFKA_HOME/config/zookeeper.properties &
+
+Start Kafka server
+$KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties &
+
+Create topic
+$KAFKA_HOME/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
+
+List topics
+$KAFKA_HOME/bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+
+Create producer
+$KAFKA_HOME/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test
+
+Create consumer
+$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+
+Describe topic
+$KAFKA_HOME/bin/kafka-topics.sh --describe --bootstrap-server localhost:9092 --topic test
+
+Compile project
+sudo python3 setup.py install
