@@ -12,3 +12,11 @@ class DataFunction(object):
             ret = dict()
 
         return ret
+
+    @staticmethod
+    def parse_str_to_list(json_str: str, fields) -> list:
+        try:
+            ret = json.loads(json_str)
+            return [tuple(ret.get(field) for field in fields)]
+        except json.JSONDecodeError:
+            return []
