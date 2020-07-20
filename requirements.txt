@@ -1,0 +1,5 @@
+pyspark
+pymongo
+py4j
+pyYAML
+snappy

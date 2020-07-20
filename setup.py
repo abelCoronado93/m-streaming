@@ -22,7 +22,8 @@ setup(
     install_requires=[
         'pyspark==2.4.4',
         'py4j==0.10.7',
-        'PyYAML'
+        'PyYAML',
+        'snappy'
     ],
 
     test_suite='tests',

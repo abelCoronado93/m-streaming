@@ -1,4 +1,10 @@
-spark-submit --jars ~/Downloads/spark-streaming-kafka-0-8-assembly_2.11-2.4.6.jar --py-files /home/abel/TFM/m-streaming/dist/m_streaming-0.0.1-py3.6.egg /home/abel/TFM/m-streaming/m_streaming/main.py localhost:9092 test
+spark-submit \
+--jars ~/Downloads/spark-streaming-kafka-0-8-assembly_2.11-2.4.6.jar \
+--py-files /home/abel/TFM/m-streaming/dist/m_streaming-0.0.1-py3.6.egg /home/abel/TFM/m-streaming/m_streaming/main.py \
+localhost:9092 test
+
+Start master
+start-master.sh
 
 Start worker
 start-slave.sh spark://abel-PORTEGE-R930:7077
