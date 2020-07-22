@@ -1,22 +1,23 @@
 from __future__ import print_function
 
 import json
-
 from pymongo import MongoClient
 from influxdb import InfluxDBClient
 
 
-class DataFunction(object):
+class DataFunction:
 
-    @staticmethod
-    def create_df(spark, sql_context, rdd):
+    def __init__(self, config: dict):
+        self._config = config
+
+    def create_df(self, spark, sql_context, rdd):
         df = spark.read.json(rdd)
         df.registerTempTable('logs')
-        ret = sql_context.sql(sqlQuery='select * from logs').toJSON().take(100)
-        [DataFunction.send_record_influx(json.loads(i)) for i in ret]
+        ret = sql_context.sql('select * from logs').toJSON().take(self._config['max_batch_size'])
+        [self._send_record_influx(json.loads(i)) for i in ret]
 
     @staticmethod
-    def send_record_mongo(data: json):
+    def _send_record_mongo(data: json):
         connection = MongoClient()
         db = connection.get_database('m_streaming')
         co = db.get_collection('apache_logs')
@@ -25,10 +26,10 @@ class DataFunction(object):
 
         connection.close()
 
-    @staticmethod
-    def send_record_influx(data: json):
+    def _send_record_influx(self, data: json):
         client = InfluxDBClient('localhost', '8086', 'superadmin', 'eskere', 'tmp')
 
+        input_fields = self._config['input_fields']
         json_body = [
             {
                 'measurement': 'apache_logs',

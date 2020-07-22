@@ -1,0 +1,5 @@
+app_name: StreamingLogProcessor
+batch_window: 5
+max_batch_size: 100
+kafka_brokers: localhost:9092
+kafka_topic: test
