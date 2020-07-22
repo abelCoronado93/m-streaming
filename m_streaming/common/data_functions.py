@@ -13,7 +13,7 @@ class DataFunction(object):
         df = spark.read.json(rdd)
         df.registerTempTable('logs')
         ret = sql_context.sql(sqlQuery='select * from logs').toJSON().take(100)
-        [DataFunction.send_record_influx(i) for i in ret]
+        [DataFunction.send_record_influx(json.loads(i)) for i in ret]
 
     @staticmethod
     def send_record_mongo(data: json):
@@ -27,7 +27,7 @@ class DataFunction(object):
 
     @staticmethod
     def send_record_influx(data: json):
-        client = InfluxDBClient("localhost", '8086', 'superadmin', 'eskere', 'tmp')
+        client = InfluxDBClient('localhost', '8086', 'superadmin', 'eskere', 'tmp')
 
         json_body = [
             {

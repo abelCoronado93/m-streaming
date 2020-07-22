@@ -20,7 +20,8 @@ if __name__ == "__main__":
 
     lines = kvs \
         .map(lambda rdd: rdd[1]) \
-        .map(DataFunction.load_json_from_string)
+        .map(DataFunction.load_json_from_string) \
+        .filter(lambda x: x != {})
 
     lines.foreachRDD(lambda rdd: DataFunction.create_df(spark, sql_context, rdd))
 
