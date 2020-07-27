@@ -13,7 +13,7 @@ class DataFunction:
     def create_df(self, spark, sql_context, rdd):
         df = spark.read.json(rdd)
         df.registerTempTable('logs')
-        ret = sql_context.sql('select * from logs').toJSON().take(self._config['max_batch_size'])
+        ret = sql_context.sql('select * from logs').toJSON().take(self._config['max_size_window'])
         [self._send_record_influx(json.loads(i)) for i in ret]
 
     @staticmethod
@@ -27,9 +27,16 @@ class DataFunction:
         connection.close()
 
     def _send_record_influx(self, data: json):
-        client = InfluxDBClient('localhost', '8086', 'superadmin', 'eskere', 'tmp')
+        config = self._config['influx']
+        client = InfluxDBClient(
+            config['host'],
+            config['port'],
+            config['user'],
+            config['pass'],
+            config['db']
+        )
 
-        input_fields = self._config['input_fields']
+        input_fields = config['input_fields']
         json_body = [
             {
                 'measurement': 'apache_logs',

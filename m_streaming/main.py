@@ -24,12 +24,12 @@ if __name__ == "__main__":
         .builder \
         .appName(config['app_name']) \
         .getOrCreate()
-    ssc = StreamingContext(spark.sparkContext, config['batch_window'])
+    ssc = StreamingContext(spark.sparkContext, config['time_batch_window'])
     sql_context = SQLContext(spark)
 
     kvs = KafkaUtils.createDirectStream(ssc,
-                                        [config['kafka_topic']],
-                                        {"metadata.broker.list": config['kafka_brokers']})
+                                        [config['kafka']['topic']],
+                                        {"metadata.broker.list": config['kafka']['brokers']})
 
     data_functions = DataFunction(config)
 

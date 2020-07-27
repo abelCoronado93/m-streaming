@@ -1,5 +1,13 @@
 app_name: StreamingLogProcessor
-batch_window: 5
-max_batch_size: 100
-kafka_brokers: localhost:9092
-kafka_topic: test
+time_batch_window: 5
+max_size_window: 100
+kafka:
+  brokers: localhost:9092
+  topic: test
+influx:
+  host: localhost
+  port: 8086
+  user: superadmin
+  pass: eskere
+  db: tmp
+  input_fields:
