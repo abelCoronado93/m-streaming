@@ -1,4 +1,4 @@
-pyspark~=2.4.6
+pyspark~=3.2.2
 pymongo~=3.10.1
 py4j
 pyYAML~=3.12

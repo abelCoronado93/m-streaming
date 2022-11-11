@@ -20,7 +20,7 @@ setup(
 
     packages=find_packages(exclude=['tests*']),
     install_requires=[
-        'pyspark==2.4.4',
+        'pyspark==3.2.2',
         'py4j==0.10.7',
         'PyYAML',
         'snappy'
@@ -31,7 +31,7 @@ setup(
         'pytest==5.2.3',
         'pytest-cov==2.8.1',
         'pylint==2.4.4',
-        'pyspark==2.4.4'
+        'pyspark==3.2.2'
     ],
 
     classifiers=[
